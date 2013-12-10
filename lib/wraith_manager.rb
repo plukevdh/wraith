@@ -40,7 +40,6 @@ class WraithManager
   end
 
   def check_for_paths
-
     if !wraith.paths
       puts "no paths defined"
       #check to see if there is an existing spider.txt file
@@ -48,7 +47,7 @@ class WraithManager
         #check that its within the use-by date set in the config
         if (Time.now - File.ctime("spider.txt"))/(24*3600) < wraith.spider_days[0]
           puts "using existing spider file"
-        else 
+        else
           #if spider.txt files is out of date create a new one
           puts "creating new spider file"
           self.spider_base_domain()
@@ -65,7 +64,7 @@ class WraithManager
   def spider_base_domain
 
     spider_list = []
-    #set the crawl domain to the base domain in the confing 
+    #set the crawl domain to the base domain in the confing
     crawl_url = wraith.base_domain
     #ignore urls to file extension such as images etc
     ext = %w(flv swf png jpg gif asx zip rar tar 7z gz jar js css dtd xsd ico raw mp3 mp4 wav wmv ape aac ac3 wma aiff mpg mpeg avi mov ogg mkv mka asx asf mp2 m1v m3u f4v pdf doc xls ppt pps bin exe rss xml)
@@ -109,7 +108,7 @@ class WraithManager
 
     p.each do |label, path|
       puts "processing '#{label}' '#{path}'"
-      
+
       if !path
         path = label
         label = path.gsub('/','_')
@@ -118,13 +117,13 @@ class WraithManager
       FileUtils.mkdir("#{wraith.directory}/#{label}")
       FileUtils.mkdir_p("#{wraith.directory}/thumbnails/#{label}")
 
-      compare_url = wraith.comp_domain + path if !wraith.comp_domain.nil? 
+      compare_url = wraith.comp_domain + path if !wraith.comp_domain.nil?
       base_url = wraith.base_domain + path if !wraith.base_domain.nil?
 
       wraith.widths.each do |width|
 
-        wraith.engine.each do |type, engine| 
-          
+        wraith.engine.each do |type, engine|
+
           # Used for headless browsers
           compare_file_name = "#{wraith.directory}/#{label}/#{width}_#{engine}_#{wraith.comp_domain_label}.png"
           base_file_name = "#{wraith.directory}/#{label}/#{width}_#{engine}_#{wraith.base_domain_label}.png"
@@ -153,7 +152,7 @@ class WraithManager
       base_url = wraith.base_domain + path
 
       base_browser = wraith.browser1
-      compare_browser = wraith.browser2   
+      compare_browser = wraith.browser2
 
       wraith.widths.each do |width|
 
